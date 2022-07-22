@@ -14,7 +14,8 @@ used to access features from https://lcr.churchofjesuschrist.org.
 
 ## Tech
 - [Node.js] - evented I/O for the backend
-- [Express] - fast node.js network app framework [@tjholowaychuk]
+- [Express] - fast node.js network app framework
+- [Knex.js] - SQL query builder for javascript
 
 ## Installation
 
@@ -23,6 +24,7 @@ LDS Datahouse API requires [Node.js](https://nodejs.org/) v10+ to run locally.
 Install the dependencies and devDependencies and start the server.
 
 ```sh
+git clone https://github.com/amonrperes/lds-datahouse-api.git
 cd lds-datahouse-api
 npm install
 npm start
