@@ -7,7 +7,6 @@ const EmailSender = require('../../utils/emailSender');
 
 const lcr = new LCR();
 const cryptography = new Cryptography();
-const emailSender = new EmailSender();
 
 class Auth {
   async register(userInfo, lcrCredentials) {
@@ -54,14 +53,13 @@ class Auth {
       ret.message = err;
       return ret;
     }
-    
-    const emailNotification = emailSender.notify(userInfo.email, apiSid, apiToken);
-
-    console.log(emailNotification);
 
     ret.status = 'OK';
     ret.message = 'User authorized';
-    ret.api_credentials = 'For security reasons, your API credentials were sent to the informed email'
+    ret.api_credentials = {
+      api_sid: apiSid,
+      api_token: apiToken
+    }
 
     return ret;
   }
