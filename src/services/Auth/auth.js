@@ -3,9 +3,11 @@ const crypto = require('crypto');
 
 const LCR = require('../LCR/lcr');
 const Cryptography = require('../../utils/cryptography');
+const EmailSender = require('../../utils/emailSender');
 
 const lcr = new LCR();
 const cryptography = new Cryptography();
+const emailSender = new EmailSender();
 
 class Auth {
   async register(userInfo, lcrCredentials) {
@@ -16,6 +18,19 @@ class Auth {
 
     const username = lcrCredentials.username;
     const password = lcrCredentials.password;
+
+    const checkIfUserExists = await connection('lds_dh_users').
+    select('lcr_username', 'lcr_password').
+    where({
+      lcr_username: username,
+      lcr_password: password
+    });
+
+    if (checkIfUserExists.length > 0) {
+      ret.message = 'User already exists';
+
+      return ret;
+    }
 
     const checkUserLCRPermission = await lcr.checkUserAuthenticity(username, password);
     
@@ -40,12 +55,13 @@ class Auth {
       return ret;
     }
     
+    const emailNotification = emailSender.notify(userInfo.email, apiSid, apiToken);
+
+    console.log(emailNotification);
+
     ret.status = 'OK';
     ret.message = 'User authorized';
-    ret.api_credentials = {
-      api_sid: apiSid,
-      api_token: apiToken
-    };
+    ret.api_credentials = 'For security reasons, your API credentials were sent to the informed email'
 
     return ret;
   }

@@ -94,7 +94,6 @@ class LCR {
 
     try {
       await page.waitForSelector('.voqve2-0.ecKbRr.sc-1m2qoxe-0.cTiqjG');
-      console.log('waiting');
       ret.status = 'OK';
       ret.message = 'User Authenticated';
     } catch(err) {
