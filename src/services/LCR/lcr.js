@@ -54,11 +54,54 @@ class LCR {
 
     await this.#login(page, username, password);
 
-    const newMembersData = await this.#getNewMembersData(page);
+    let newMembersData;
+
+    try {
+      newMembersData = await this.#getNewMembersData(page);
+    } catch(err) {
+      syncRet.message = 'Error accessing lcr. Please, contact amon.r.peres@gmail.com';
+      return syncRet;
+    }
 
     syncRet.newMembers = newMembersData;
 
     return syncRet;
+  }
+
+  async checkUserAuthenticity(username, password) {
+    const ret = {
+      status: 'ERROR',
+      message: 'Access Denied'
+    }
+
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+
+    await page.goto('https://lcr.churchofjesuschrist.org/');
+
+    await page.waitForSelector('.auth-content');
+    await page.waitForSelector('#okta-signin-username');
+
+    await page.type('#okta-signin-username', username);
+
+    // await page.click('#okta-signin-submit');
+    await page.keyboard.press('Enter');
+
+    await page.waitForSelector('.password-with-toggle');
+    await page.type('.password-with-toggle', password);
+
+    await page.keyboard.press('Enter');
+
+    try {
+      await page.waitForSelector('.voqve2-0.ecKbRr.sc-1m2qoxe-0.cTiqjG');
+      console.log('waiting');
+      ret.status = 'OK';
+      ret.message = 'User Authenticated';
+    } catch(err) {
+      console.log(err);
+    }
+
+    return ret;
   }
 }
 

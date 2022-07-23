@@ -1,14 +1,21 @@
 const LCR = require('../../services/LCR/lcr');
 const NewMembers = require('../../services/NewMembers/newMembers');
+const Auth = require('../../services/Auth/auth');
 
 const lcr = new LCR();
 const nm = new NewMembers();
+const auth = new Auth();
 
 module.exports = {
   async syncData(req, res) {
-    const { username, password } = req.body;
+    const { bearer } = req.headers;
 
-    const lcrResponse = await lcr.syncData(username, password);
+    const apiSid = bearer.split(':')[0];
+    const apiToken = bearer.split(':')[1];
+
+    const lcrCredentials = await auth.retrieveUserLCRCredentials(apiSid, apiToken);
+
+    const lcrResponse = await lcr.syncData(lcrCredentials.credentials.lcr_username, lcrCredentials.credentials.lcr_password);
 
     const updateNewMembersList = await nm.create(lcrResponse.newMembers);
 

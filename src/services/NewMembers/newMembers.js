@@ -15,7 +15,7 @@ class NewMembers {
           age: element.age,
           gender: element.gender,
           responsibility: element.responsibility || 'null',
-        });
+        }).onConflict('name').merge();
       } catch (err) {
         console.log(err);
       }
