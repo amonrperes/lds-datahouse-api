@@ -34,7 +34,7 @@ npm start
 
 You'll need to register your LDS Credentials in order to check if you have access to the Leaders and Clerks Resources and receive API Credentials.
 
-```sh
+```javascript
 import fetch from 'node-fetch'
 
 const body = {
