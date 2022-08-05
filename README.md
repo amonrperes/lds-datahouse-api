@@ -54,21 +54,20 @@ console.log(data);
 Reponse:
 ```json
 {
-	"status": "OK",
-	"message": "User authorized",
-	"api_credentials": {
-		"api_sid": "sid_",
-		"api_token": "token_"
-	}
+  "status": "OK",
+  "message": "User authorized",
+  "api_credentials": {
+    "api_sid": "sid_",
+    "api_token": "token_"
+  }
 }
 ```
 
 With your API credentials, now you can make requests sending it through the headers like this:
 ```json
 {
-     "headers": {
-            "Bearer sid_:token_"
-        }   
-    }
+  "headers": {
+    "Bearer sid_:token_"
+  }  
 }
 ```
