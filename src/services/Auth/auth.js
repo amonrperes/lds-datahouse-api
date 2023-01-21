@@ -3,7 +3,7 @@ const crypto = require('crypto');
 
 const LCR = require('../LCR/lcr');
 const Cryptography = require('../../utils/cryptography');
-const EmailSender = require('../../utils/emailSender');
+// const EmailSender = require('../../utils/emailSender');
 
 const lcr = new LCR();
 const cryptography = new Cryptography();
