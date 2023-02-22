@@ -1,8 +1,6 @@
 # LDS Datahouse API
 ## _A Open Source API to access LDS Leaders and Clerk Resources_
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
-
 LDS Datahouse API is a REST API based on a web scrapping service,
 used to access features from https://lcr.churchofjesuschrist.org.
 
