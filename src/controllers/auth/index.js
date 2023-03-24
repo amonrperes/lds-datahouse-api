@@ -4,8 +4,7 @@ const auth = new Auth();
 
 module.exports = {
   async registerUser(req, res) {
-    const { name, email } = req.body;
-    const { username, password } = req.query;
+    const { name, email, username, password } = req.body;
 
     try {
         const authorize = await auth.register({name, email}, {username, password});
