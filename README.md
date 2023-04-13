@@ -37,10 +37,12 @@ import fetch from 'node-fetch'
 
 const body = {
   name: '<YOUR NAME>',
-  email: '<YOUR EMAIL>'
+  email: '<YOUR EMAIL>',
+  username: '<YOUR_LCR_USERNAME>',
+  password: '<YOUR_LCR_PASSWORD>'
 };
 
-const response = await fetch('http://localhost:3000/register?username=<YOUR_LCR_USERNAME>&password=<YOUR_LCR_PASSWORD>', {
+const response = await fetch('http://localhost:3000/register', {
   method: 'post',
   body: JSON.stringify(body)
 });
