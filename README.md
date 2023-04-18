@@ -1,8 +1,7 @@
 # LDS Datahouse API
 ## _A Open Source API to access LDS Leaders and Clerk Resources_
 
-LDS Datahouse API is a REST API based on a web scrapping service,
-used to access features from https://lcr.churchofjesuschrist.org.
+LDS Datahouse API is a REST API based on a web scrapping service used to access features from https://lcr.churchofjesuschrist.org.
 
 ## Current Features
 - Retrieve new members' data from New Member report.
