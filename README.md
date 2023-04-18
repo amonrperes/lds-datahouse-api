@@ -37,8 +37,8 @@ const axios = require('axios');
 const LDSDatahouseUrl = 'http://localhost:3000/register';
 
 const body = {
-  name: 'Amon Peres',
-  email: 'ap@someemaildomain.com',
+  name: <YOUR_NAME>,
+  email: <YOUR_EMAIL>,
   username: <YOUR_LCR_USERNAME>,
   password: <YOUR_LCR_PASSWORD>
 }
