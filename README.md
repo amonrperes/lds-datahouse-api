@@ -39,7 +39,7 @@ const LDSDatahouseUrl = 'http://localhost:3000/register';
 
 const body = {
   name: 'Amon Peres',
-  email: 'amon.ribeiro.peres@gmail.com',
+  email: 'ap@someemaildomain.com',
   username: <YOUR_LCR_USERNAME>,
   password: <YOUR_LCR_PASSWORD>
 }
