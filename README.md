@@ -33,32 +33,94 @@ npm start
 You'll need to register your LDS Credentials in order to check if you have access to the Leaders and Clerks Resources and receive API Credentials.
 
 ```javascript
-import fetch from 'node-fetch'
+const axios = require('axios');
+
+const LDSDatahouseUrl = 'http://localhost:3000/register';
 
 const body = {
-  name: '<YOUR NAME>',
-  email: '<YOUR EMAIL>',
-  username: '<YOUR_LCR_USERNAME>',
-  password: '<YOUR_LCR_PASSWORD>'
-};
+  name: 'Amon Peres',
+  email: 'amon.ribeiro.peres@gmail.com',
+  username: <YOUR_LCR_USERNAME>,
+  password: <YOUR_LCR_PASSWORD>
+}
 
-const response = await fetch('http://localhost:3000/register', {
-  method: 'post',
-  body: JSON.stringify(body)
+axios.post(LDSDatahouseUrl, body).then(response => {
+  console.log(response.data);
+}).catch(error => {
+  console.error(error);
 });
 
-const data = await response.json();
-
-console.log(data);
 ```
 Reponse:
 ```json
 {
   "status": "OK",
   "message": "User authorized",
-  "api_credentials": {
-    "api_token": "token_"
+  "api_credentials": { "api_token": "token_f68a5d031b756bf760a957a2bd345242a28ef229" },
+  "privacy_note": "We do not store any of your LCR credentials or sensitive personal information. LCR credentials are only used to check an user permission to use LCR and to sync data pertinent to an user calling."
+}
+```
+
+## Sync
+
+After registering and with your api token in hands it's time to sync the available data.
+
+```javascript
+const axios = require('axios');
+
+const LDSDatahouseUrl = 'http://localhost:3000/sync';
+
+const body = {
+  lcr_username: <YOUR_LCR_USERNAME>,
+  lcr_password: <YOUR_LCR_PASSWORD>
+}
+
+axios.post(LDSDatahouseUrl, body, {headers: {
+  apitoken: <YOUR_API_TOKEN>
+}}).then(response => {
+  console.log(response.data);
+}).catch(error => {
+  console.error(error);
+});
+
+```
+Reponse:
+```json
+{ 
+  "status": "OK", 
+  "message": "Successfully updated" 
+}
+```
+
+## New Members
+
+The New Members list is an available resource to be retrieved using the LDS Datahouse API.
+
+```javascript
+const axios = require('axios');
+
+const apiUrl = 'http://localhost:3000/new-members';
+
+axios.get(apiUrl, {
+  headers: {
+    apitoken: <YOUR_API_KEY>
   }
+}).then(response => {
+  console.log(response.data);
+}).catch(error => {
+  console.error(error);
+});
+
+```
+Reponse:
+```json
+{
+  "status": "OK",
+  "data": [
+    {
+      ...
+    }
+  ]
 }
 ```
 
