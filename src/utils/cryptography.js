@@ -9,11 +9,8 @@ class Cryptography {
         return {username, password}
     }
 
-    generateAPICredentials() {
-        const apiSid = `sid_${crypto.randomBytes(5).toString('hex')}`;
-        const apiToken = `token_${crypto.randomBytes(20).toString('hex')}`;
-
-        return {apiSid, apiToken}
+    generateAPIToken() {
+        return `token_${crypto.randomBytes(20).toString('hex')}`;
     }
 }
 

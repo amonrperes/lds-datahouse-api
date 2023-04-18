@@ -1,21 +1,39 @@
 const LCR = require('../../services/LCR/lcr');
 const NewMembers = require('../../services/NewMembers/newMembers');
-const Auth = require('../../services/Auth/auth');
+
+const utils = require('../../utils/utils');
 
 const lcr = new LCR();
 const nm = new NewMembers();
-const auth = new Auth();
 
 module.exports = {
   async syncData(req, res) {
-    const { bearer } = req.headers;
+    const {lcr_username: lcrUsername, lcr_password: lcrPassword} = req.body;
+    const { apitoken } = req.headers;
 
-    const apiSid = bearer.split(':')[0];
-    const apiToken = bearer.split(':')[1];
+    if (!apitoken) {
+      return res.status(401).json({
+        status: 'Not Authorized',
+        message: 'Please, provide your API token in order to sync data. If you do not have an api token, please register on /register'
+      });
+    }
 
-    const lcrCredentials = await auth.retrieveUserLCRCredentials(apiSid, apiToken);
+    if (!lcrUsername || !lcrPassword) {
+      return res.status(401).json({
+        status: 'Not Authorized',
+        message: 'Please, provide your LCR credentials in order to sync data.'
+      });
+    }
 
-    const lcrResponse = await lcr.syncData(lcrCredentials.credentials.lcr_username, lcrCredentials.credentials.lcr_password);
+    const isAPITokenValid = await utils.validateAPIToken(apitoken);
+
+    if (!isAPITokenValid) {
+      return res.status(400).json({
+        message: 'Invalid API Token'
+      })
+    }
+
+    const lcrResponse = await lcr.syncData(lcrUsername, lcrPassword);
 
     const updateNewMembersList = await nm.create(lcrResponse.newMembers);
 
@@ -28,7 +46,25 @@ module.exports = {
       return res.status(201).json(updateNewMembersList);
     }
   },
+
   async retrieveNewMembersList(req, res) {
+    const { apitoken } = req.headers;
+
+    if (!apitoken) {
+      return res.status(401).json({
+        status: 'Not Authorized',
+        message: 'Please, provide your API token in order to sync data. If you do not have an api token, please register on /register'
+      });
+    }
+
+    const isAPITokenValid = await utils.validateAPIToken(apitoken);
+
+    if (!isAPITokenValid) {
+      return res.status(400).json({
+        message: 'Invalid API Token'
+      })
+    }
+
     try {
       const newMembersList = await nm.retrieve();
 
@@ -36,7 +72,7 @@ module.exports = {
         return res.status(201).json(newMembersList);
       } else {
         return res.status(500).json({
-          error: 'something went wrong',
+          error: 'Something went wrong',
         });
       }
     } catch (err) {

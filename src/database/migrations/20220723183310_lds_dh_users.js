@@ -3,9 +3,6 @@ exports.up = function (knex) {
       table.string('id').primary();
       table.string('name').notNullable();
       table.string('email').notNullable();
-      table.string('lcr_username').notNullable();
-      table.string('lcr_password').notNullable();
-      table.string('api_sid').notNullable();
       table.string('api_token').notNullable();
     });
   };
