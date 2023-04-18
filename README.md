@@ -62,14 +62,5 @@ Reponse:
 }
 ```
 
-With your API credentials, now you can make requests sending it through the headers like this:
-```json
-{
-  "headers": {
-    "Bearer sid_:token_"
-  }  
-}
-```
-
 ## Privacy Note
 LDS Datahouse API DO NOT store your LCR credentials in any circunstaces. LCR credentials are only used to validate you have access to the Leader and Clerk Resources and to sync LCR data in the database. We take care of personal data in a very carefully way.
