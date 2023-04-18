@@ -8,6 +8,7 @@ const nm = new NewMembers();
 
 module.exports = {
   async syncData(req, res) {
+    console.log(`INFO ${new Date()} -> Syncing LCR Data`);
     const {lcr_username: lcrUsername, lcr_password: lcrPassword} = req.body;
     const { apitoken } = req.headers;
 
