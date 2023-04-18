@@ -4,6 +4,7 @@ const auth = new Auth();
 
 module.exports = {
   async registerUser(req, res) {
+    console.log(`INFO ${new Date()} -> Registering new user`);
     const { name, email, username, password } = req.body;
 
     try {
