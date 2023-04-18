@@ -57,7 +57,7 @@ Reponse:
   "status": "OK",
   "message": "User authorized",
   "api_credentials": { 
-     "api_token": <YOUR_API_TOKEN> 
+     "api_token": <YOUR_API_TOKEN>
   },
   "privacy_note": "We do not store any of your LCR credentials or sensitive personal information. LCR credentials are only used to check an user permission to use LCR and to sync data pertinent to an user calling."
 }
