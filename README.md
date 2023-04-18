@@ -105,7 +105,7 @@ const apiUrl = 'http://localhost:3000/new-members';
 
 axios.get(apiUrl, {
   headers: {
-    apitoken: <YOUR_API_KEY>
+    apitoken: <YOUR_API_TOKEN>
   }
 }).then(response => {
   console.log(response.data);
