@@ -33,12 +33,25 @@ class Auth {
     if (checkUserLCRPermission.status !== 'OK') {
       return ret;
     }
-    
+  
     const apiToken = cryptography.generateAPIToken();
+
+    const { 
+      data: { 
+        stakeId: stake_id, 
+        stakeName: stake_name, 
+        wardId: ward_id, 
+        wardName: ward_name 
+      } 
+    } = checkUserLCRPermission;
 
     try {
       await connection('lds_dh_users').insert({
         id: `user_${crypto.randomBytes(10).toString('hex')}`,
+        stake_id,
+        stake_name,
+        ward_id,
+        ward_name,
         name: userInfo.name,
         email: userInfo.email,
         api_token: apiToken
@@ -53,7 +66,7 @@ class Auth {
     ret.api_credentials = {
       api_token: apiToken
     }
-    ret.privacy_note = 'We do not store any of your LCR credentials or sensitive personal information. LCR credentials are only used to check an user permission to use LCR and to sync data pertinent to an user calling.';
+    ret.privacy_note = "We do not store any of your LCR credentials or sensitive personal information. LCR credentials are only used to check permission to use LCR and to sync data pertinent to your calling.";
 
     return ret;
   }
