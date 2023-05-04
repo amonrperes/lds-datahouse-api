@@ -99,9 +99,35 @@ class LCR {
     await page.keyboard.press('Enter');
 
     try {
-      await page.waitForSelector('.sc-1tfwysu-0.bqnquP');
+      await page.waitForSelector('.sc-1u44evz-0.JDVKk.sc-2c415096-3.kcTgDY');
+
+      const stakeInfo = await page.evaluate(() => {
+        const element = document.querySelector('.sc-1u44evz-0.JDVKk.sc-2c415096-3.kcTgDY');
+        return element.innerText;
+      })
+
+      const wardInfo = await page.evaluate(() => {
+        const element = document.querySelector('.sc-2c415096-1.VEfQV');
+        return element.innerText;
+      });
+
+      const numberPattern = /\d+/g;
+      const stringPattern = /[a-zA-ZÀ-ú]+/g;
+
+      const stakeId = stakeInfo.match(numberPattern).join();
+      const stakeName = stakeInfo.match(stringPattern).join(' ');
+
+      const wardId = wardInfo.match(numberPattern).join();
+      const wardName = wardInfo.match(stringPattern).join(' ');
+
       ret.status = 'OK';
       ret.message = 'User Authenticated';
+      ret.data = {
+        stakeId,
+        stakeName,
+        wardId,
+        wardName
+      };
     } catch(err) {
       console.log(err);
     }

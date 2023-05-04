@@ -36,7 +36,7 @@ module.exports = {
 
     const lcrResponse = await lcr.syncData(lcrUsername, lcrPassword);
 
-    const updateNewMembersList = await nm.create(lcrResponse.newMembers);
+    const updateNewMembersList = await nm.create(lcrResponse.newMembers, apitoken);
 
     if (updateNewMembersList.status !== 'OK') {
       return res.status(500).json({
@@ -67,7 +67,7 @@ module.exports = {
     }
 
     try {
-      const newMembersList = await nm.retrieve();
+      const newMembersList = await nm.retrieve(apitoken);
 
       if (newMembersList.status === 'OK') {
         return res.status(201).json(newMembersList);
