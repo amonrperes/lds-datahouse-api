@@ -7,7 +7,6 @@ class LCR {
 
     await page.type('#okta-signin-username', username);
 
-    // await page.click('#okta-signin-submit');
     await page.keyboard.press('Enter');
 
     await page.waitForSelector('.password-with-toggle');
@@ -16,10 +15,11 @@ class LCR {
     await page.keyboard.press('Enter');
 
     await page.waitForSelector('#__next');
-    await page.goto('https://lcr.churchofjesuschrist.org/report/new-member');
   }
 
   async #getNewMembersData(page) {
+    await page.goto('https://lcr.churchofjesuschrist.org/report/new-member');
+
     await page.waitForSelector('.sc-1tfwysu-0.bqnquP');
     const newMembers = await page.evaluate(() => {
       let tds = Array.from(document.querySelectorAll('table tr'));
@@ -44,6 +44,16 @@ class LCR {
     return newMembers;
   }
 
+  #methodsQueue() {
+    const newMembers = this.#getNewMembersData;
+    return [
+      {
+        name: 'newMembers',
+        method: newMembers
+      }
+    ]
+  }
+
   async syncData(username, password) {
     const syncRet = {};
 
@@ -57,16 +67,20 @@ class LCR {
 
     await this.#login(page, username, password);
 
-    let newMembersData;
+    for(const m of this.#methodsQueue()) {
+      let response;
+      let error;
 
-    try {
-      newMembersData = await this.#getNewMembersData(page);
-    } catch(err) {
-      syncRet.message = 'Error accessing lcr. Please, contact amon.r.peres@gmail.com';
-      return syncRet;
+      try {
+        response = await m.method(page);
+      } catch (err) {
+        error = `500 - Error fetching ${response.name}`
+      }
+      
+      if (!error) {
+        syncRet[m.name] = response;
+      }
     }
-
-    syncRet.newMembers = newMembersData;
 
     return syncRet;
   }
