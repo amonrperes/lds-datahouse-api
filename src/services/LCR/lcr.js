@@ -44,12 +44,45 @@ class LCR {
     return newMembers;
   }
 
+  async #getEldersQuorumBirthdayList(page) {
+    await page.goto('https://lcr.churchofjesuschrist.org/report/birthday-list?lang=eng&orgType=ELDERS_QUORUM');
+
+    await page.waitForSelector('.sc-1tfwysu-0.bqnquP');
+
+    const birthdaysList = await page.evaluate(() => {
+      let tds = Array.from(document.querySelectorAll('table tr'));
+      tds = tds.map((td) => td.innerText);
+
+      const out = [];
+      tds.forEach((element, index) => {
+        if (index !== 0) {
+          const info = element.split('\t');
+          const ret = {
+            name: `${info[1].split(', ')[1]} ${info[1].split(', ')[0]}`,
+            birthday: info[0],
+          };
+          out.push(ret);
+        }
+      });
+
+      return out;
+    });
+
+    return birthdaysList;
+  }
+
   #methodsQueue() {
     const newMembers = this.#getNewMembersData;
+    const eldersQuorumBirthdaysList = this.#getEldersQuorumBirthdayList;
+
     return [
       {
         name: 'newMembers',
         method: newMembers
+      },
+      {
+        name: 'eldersQuorumBirthdaysList',
+        method: eldersQuorumBirthdaysList
       }
     ]
   }
@@ -74,7 +107,7 @@ class LCR {
       try {
         response = await m.method(page);
       } catch (err) {
-        error = `500 - Error fetching ${response.name}`
+        error = `500 - Error fetching ${response?.name}`
       }
       
       if (!error) {
