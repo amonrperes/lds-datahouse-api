@@ -1,5 +1,5 @@
 # LDS Datahouse API
-## _An Open Source API to access LDS Leaders and Clerk Resources_
+## _An Open Source API to access churchofjesuschrist.com Leaders and Clerk Resources environment_
 
 LDS Datahouse API is a REST API based on a web scrapping service used to access features from https://lcr.churchofjesuschrist.org.
 
@@ -29,7 +29,7 @@ npm start
 
 ## Registration
 
-You'll need to register your LDS Credentials in order to check if you have access to the Leaders and Clerks Resources and receive API Credentials.
+You'll need to register your churchofjesuschrist.com credentials in order to check if you have access to the Leaders and Clerks Resources and receive API Credentials.
 
 ```javascript
 const axios = require('axios');
